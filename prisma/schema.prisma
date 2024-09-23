@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["fullTextIndex", "fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Document {
+  id          String     @id @default(uuid())
+  title       String     @db.Text
+  description String?    @db.Text
+  imageUrl    String?
+  documentUrl String?
+  price       Float?      
+  isPublished Boolean   @default(false)
+  isLocked    Boolean    @default(true)
+  createdAt   DateTime?   @default(now())
+  updatedAt   DateTime?   @updatedAt
+  userId      String
+  notifications Notification[]
+  Attachments Attachment[]
+  Purchases Purchase[]
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  message   String
+  type      String  
+  userId    String   
+  isRead      Boolean  @default(false)
+  isInteracted Boolean @default(false)
+  createdAt DateTime @default(now())
+  documentId String?
+  document    Document?  @relation(fields: [documentId], references: [id])
+}
+
+model Attachment {
+  id        String   @id @default(uuid())
+  name      String
+  url       String
+  document  Document @relation(fields: [docId], references: [id], onDelete: Cascade)
+  docId     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Purchase {
+  id          String   @id @default(uuid())
+  userId      String
+  documentId  String
+  isPurchased Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  document    Document @relation(fields: [documentId], references: [id])
+}
