@@ -2,7 +2,8 @@
 import { getDocuments } from "@/actions/get-documents";
 import { DocumentsList } from "@/components/documents-list";
 import { Navbar } from "./(dashboard)/_components/navbar";
-import { HomeSidebar } from "./(dashboard)/_components/home-sidebar";
+
+import { Sidebar } from "./(dashboard)/_components/sidebar";
 
 
 const HomePage =  async () => {
@@ -16,7 +17,7 @@ const HomePage =  async () => {
         <Navbar />
       </div>
       <div className="hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-50">
-        <HomeSidebar />
+        <Sidebar />
       </div>
         
         <main className="flex-grow md:pl-60 pt-[80px]">

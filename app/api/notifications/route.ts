@@ -36,16 +36,8 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-  const { userId } = auth();
-
-  if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-
     const notifications = await db.notification.findMany({
-      where: { userId },
       include: {
         document: {
           select: {
